@@ -49,7 +49,7 @@ public class ClickCounterAspect {
     @Pointcut("@annotation(ActionEnd) && this(activity)")
     public void actionEnd(Activity activity){}
 
-    //@Pointcut("execution(* *.*(android.view.View)) && this(activity)")
+ 
     //The activity should override dispatchTouchEvent(MotionEvent)
     @Pointcut("execution(* (android.app.Activity+).dispatchTouchEvent(..)) && this(activity) && args(ev)")
     public void click(Activity activity, MotionEvent ev){
@@ -57,7 +57,7 @@ public class ClickCounterAspect {
 
 
     /**
-     *register the activity that is now displaying
+     *register the action
      * @param joinPoint thisJoinPoint
      */
     @After("actionBegin(activity)")
@@ -73,7 +73,9 @@ public class ClickCounterAspect {
         }
     }
 
-
+    /**
+    * end the click cound and send the report to the server
+    */
     @After("actionEnd(activity)")
     public void endClickCount(JoinPoint joinPoint,Activity activity) throws UnfinishedAction {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
