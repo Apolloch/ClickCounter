@@ -83,7 +83,7 @@ et le résultat envoyé :
 	    "name":"auth"
     }
 
-## Limitation
+## Limitations
 L'utilisation de cet outil comporte l'obligation de surcharger des méthode sans raison apparente , ce qui peut être un soucis en terme de lisibilité.
 Les données récoltées se limitants au nombre de clicks , les comportements que l'on peut en déduire sont somme toute assez limités. 
 La configuration est limité à une url et des paramètres post user et pwd , ce qui peut être contraignant à gérer coté serveur.Il est toutefois possible de modifier cela dans la class ClickReportSender 
