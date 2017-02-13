@@ -57,7 +57,7 @@ pour que uidra puisse capter les clicks , vous devez surcharger la méthode disp
 Pour définir l'URL du serveur,éditez dans la classe config.Config le field url.  
 ## Evaluation
 Uidra a été testé sur l'application owncloud et à permis de récolter des données d'utilisations de 3 cas : clique d'une image , authentification ,supprimer user.
-Voici pour exemple le code nécessaire pour l'authentification.
+Voici pour exemple le code nécessaire pour l'authentification...deux annotations et un override, that's it .
 
     	@ActionBegin(name="auth")
         protected void onCreate(Bundle icicle) {
