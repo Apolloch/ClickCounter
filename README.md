@@ -6,8 +6,6 @@
 - **[Travail Technique](#travail-technique)**   
 - **[Evaluation](#evaluation)**
 - **[Limitations](#limitation)**  
-- **[Discussion](#discussion)**
-- **[Conclusion](#conclusion)**
 
 ## Introduction
 
@@ -28,19 +26,36 @@ Par le biais d'un système d'actions,délimitées au préalable dans le code , l
 ### Architecture
 Uidra utilise la programmation par aspect pour attraper les clicks à l’exécution.Pour cela il utilise le plugin gradle [com.uphyca.android-aspectj](https://github.com/uPhyca/gradle-android-aspectj-plugin "com.uphyca.android-aspectj") qui permet d'utiliser aspectJ sous Android.Cet outil est composé d'un ensemble de sources à inclure dans votre projet.
 
-### Use
-####Setup
+
+###Setup
 Pour utiliser cet outil :
 
 -  Inclure les sources dans le projet.
 
 -  rajouter le plugin suivant dans build.gradle du module app : `apply plugin: 'com.uphyca.android-aspectj'`.
  
- - rajouter la dépendance suivante dans 
+### Use
+Cette outil fonctionne à base de délimitation d'actions grâce aux annotations @ActionBegin,@ActionEnd:
+ex : 
+
+    @ActionBegin(name="auth")
+    protected void onCreate(Bundle icicle) {
+    }
+    
+    @ActionEnd(name="auth")
+        public void finish() {
+
+pour que uidra puisse capter les clicks , vous devez surcharger la méthode dispatchTouchEvent dans votre activity :
+
+    
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
 
 
 ## Evaluation
-Uidra a été testé sur l'application owncloud et à permis de récolter des données d'utilisations de 3 cas
+Uidra a été testé sur l'application owncloud et à permis de récolter des données d'utilisations de 3 cas : clique d'une image , authentification ,supprimer user.
+Voici pour exemple le code nécessaire pour l'authentification.
 
     	@ActionBegin(name="auth")
         protected void onCreate(Bundle icicle) {
@@ -52,10 +67,22 @@ Uidra a été testé sur l'application owncloud et à permis de récolter des do
             if (mAccountAuthenticatorResponse != null) {
             ...
     }
+    
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
+et le résultat envoyé :
+
+    {
+	    "success":true,
+	    "sub_action":[],
+	    "clicks":4,
+	    "name":"auth"
+    }
 
 ## Limitation
 L'utilisation de cet outil comporte l'obligation de surcharger des méthode sans raison apparente , ce qui peut être un soucis en terme de lisibilité.
 Les données récoltées se limitants au nombre de clicks , les comportements que l'on peut en déduire sont somme toute assez limités. 
 
-## Conclusion
 
